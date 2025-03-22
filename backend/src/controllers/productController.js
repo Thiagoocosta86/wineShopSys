@@ -42,3 +42,25 @@ exports.getProductById = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
+// Update product stock
+exports.updateProductStock = async (req, res) => {
+  const { id } = req.params;
+  const { stock } = req.body;
+
+  try {
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { stock },
+      { new: true }
+    );
+
+    if (!updatedProduct) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: "Server error" });
+  }
+};
