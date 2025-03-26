@@ -1,8 +1,10 @@
 import { useContext } from "react";
+import { useRouter } from "next/router"; // Import useRouter
 import { CartContext } from "../context/CartContext";
 
 export default function CartPage() {
   const { cart, removeFromCart } = useContext(CartContext);
+  const router = useRouter(); // Initialize useRouter
 
   // Calculate total price for each item
   const calculateItemTotal = (price, quantity) => {
@@ -20,6 +22,11 @@ export default function CartPage() {
     if (confirmRemove) {
       removeFromCart(productId);
     }
+  };
+
+  // Redirect to checkout page
+  const handleProceedToCheckout = () => {
+    router.push("/checkout"); // Redirect to the checkout page
   };
 
   return (
@@ -45,6 +52,16 @@ export default function CartPage() {
           ))}
           <div className="mt-4">
             <h2 className="text-2xl font-bold">Cart Total: €{calculateCartTotal()}</h2>
+            {/* Add "Proceed to Checkout" button */}
+            <button
+                onClick={handleProceedToCheckout}
+                className={`bg-blue-500 text-white px-4 py-2 rounded mt-4 ${
+                    cart.length === 0 ? "opacity-50 cursor-not-allowed" : ""
+                }`}
+                disabled={cart.length === 0}
+                >
+                Proceed to Checkout
+            </button>
           </div>
         </>
       )}

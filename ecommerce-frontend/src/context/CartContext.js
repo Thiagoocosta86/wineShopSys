@@ -1,7 +1,12 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 export const CartContext = createContext();
+
+// Create a custom hook to use the CartContext
+export const useCart = () => {
+  return useContext(CartContext);
+};
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
