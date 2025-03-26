@@ -3,6 +3,7 @@ import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../context/CartContext";
 
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function ProductPage() {
