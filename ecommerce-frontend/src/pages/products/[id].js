@@ -82,7 +82,7 @@ export default function ProductPage() {
       {/* Add to Cart Button */}
       <button
         onClick={handleAddToCart}
-        className="bg-green-500 text-white px-4 py-2 rounded"
+        className="flex-1 py-2 bg-orange-700 text-white rounded hover:bg-red-900"
       >
         Add to Cart
       </button>

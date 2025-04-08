@@ -1,10 +1,27 @@
 // components/ProductCard.js
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
-
+import axios from "axios";
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
+
+  const handleAddToCart = async () => {
+    try {
+      // Add to cart with quantity = 1
+      addToCart({ ...product, quantity: 1 });
+  
+      // Update stock in the backend
+      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${product._id}/stock`, {
+        stock: product.stock - 1,
+      });
+  
+      // Note: We don't refresh product data here since it's a card component
+      // and we don't show stock information in the card
+    } catch (error) {
+      console.error("Error updating stock", error);
+    }
+  };
 
   return (
     <div className="border rounded-lg p-4 shadow hover:shadow-lg transition-shadow">
@@ -26,7 +43,7 @@ export default function ProductCard({ product }) {
             Details
           </Link>
           <button
-            onClick={() => addToCart(product)}
+            onClick={handleAddToCart}
             className="flex-1 py-2 bg-orange-700 text-white rounded hover:bg-red-900"
           >
             Add to Cart

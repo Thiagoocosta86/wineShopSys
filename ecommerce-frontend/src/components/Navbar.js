@@ -1,14 +1,21 @@
-// components/Navbar.js
 import Link from "next/link";
 import { useCart } from "../context/CartContext";
+import Image from "next/image";
+
 
 export default function Navbar() {
   const { cart } = useCart();
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <nav className="bg-white shadow-lg">
+    <nav className="bg-white-300 ">
+      
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div>
+        
+        <Image src="/wineShopLogo.svg" alt="Monchoir Wine Logo" width={50} height={50} />
+  
+        </div>
         <Link href="/" className="text-2xl font-bold ">
           Monchoir Wine
         </Link>
