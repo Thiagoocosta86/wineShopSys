@@ -1,6 +1,7 @@
 import { useCart } from "../context/CartContext";
 import axios from "axios";
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 
 export default function Checkout() {
   const { cart } = useCart();
@@ -40,6 +41,7 @@ export default function Checkout() {
 
   return (
     <div className="container mx-auto p-4">
+      <Navbar />
       <h1 className="text-3xl font-bold mb-4">Checkout</h1>
       
       {error && (

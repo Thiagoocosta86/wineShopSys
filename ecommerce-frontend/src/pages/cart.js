@@ -1,6 +1,8 @@
 import { useContext } from "react";
 import { useRouter } from "next/router"; // Import useRouter
 import { CartContext } from "../context/CartContext";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function CartPage() {
   const { cart, removeFromCart } = useContext(CartContext);
@@ -30,7 +32,10 @@ export default function CartPage() {
   };
 
   return (
-    <div className="container mx-auto p-4">
+    <div> 
+      <Navbar />
+    <div className="min-h-screen container mx-auto p-4">
+      
       <h1 className="text-3xl font-bold">Shopping Cart</h1>
       {cart.length === 0 ? (
         <p>Your cart is empty.</p>
@@ -65,6 +70,8 @@ export default function CartPage() {
           </div>
         </>
       )}
+    </div>
+    <Footer />
     </div>
   );
 }

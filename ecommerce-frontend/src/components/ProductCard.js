@@ -8,18 +8,25 @@ export default function ProductCard({ product }) {
 
   const handleAddToCart = async () => {
     try {
+      // First check if product is in stock
+      if (product.stock <= 0) {
+        alert("This product is out of stock");
+        return;
+      }
+
       // Add to cart with quantity = 1
       addToCart({ ...product, quantity: 1 });
   
       // Update stock in the backend
-      await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${product._id}/stock`, {
+      const API_URL = process.env.NEXT_PUBLIC_API_URL || '';
+      await axios.patch(`${API_URL}/api/products/${product._id}/stock`, {
         stock: product.stock - 1,
       });
-  
-      // Note: We don't refresh product data here since it's a card component
-      // and we don't show stock information in the card
+
     } catch (error) {
       console.error("Error updating stock", error);
+      // Optionally show error to user
+      alert("Failed to add item to cart. Please try again.");
     }
   };
 
@@ -44,9 +51,14 @@ export default function ProductCard({ product }) {
           </Link>
           <button
             onClick={handleAddToCart}
-            className="flex-1 py-2 bg-orange-700 text-white rounded hover:bg-red-900"
+            disabled={product.stock <= 0}
+            className={`flex-1 py-2 rounded ${
+              product.stock <= 0 
+                ? 'bg-gray-400 cursor-not-allowed' 
+                : 'bg-orange-700 text-white hover:bg-red-900'
+            }`}
           >
-            Add to Cart
+            {product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
           </button>
         </div>
       </div>
