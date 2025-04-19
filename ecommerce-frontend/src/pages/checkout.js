@@ -2,6 +2,7 @@ import { useCart } from "../context/CartContext";
 import axios from "axios";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
 
 export default function Checkout() {
   const { cart } = useCart();
@@ -17,13 +18,16 @@ export default function Checkout() {
         throw new Error('Your cart is empty');
       }
 
-      const response = await axios.post('api/payment', { 
+      // Fix the API endpoint to point to your backend
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/orders/create-checkout-session`, { 
         cart: cart.map(item => ({
           id: item._id,
           name: item.name,
           price: item.price,
           quantity: item.quantity
-        }))
+        })),
+        success_url: `${window.location.origin}/success`,
+        cancel_url: `${window.location.origin}/cart`
       });
 
       if (response.data?.url) {
@@ -40,8 +44,10 @@ export default function Checkout() {
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div>
       <Navbar />
+    <div className="min-h-screen container mx-auto p-4">
+      
       <h1 className="text-3xl font-bold mb-4">Checkout</h1>
       
       {error && (
@@ -74,6 +80,8 @@ export default function Checkout() {
       >
         {loading ? 'Processing...' : 'Pay Now'}
       </button>
+    </div>
+        <Footer />
     </div>
   );
 }

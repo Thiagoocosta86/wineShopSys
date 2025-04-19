@@ -117,4 +117,30 @@ exports.deleteOrder = async (req, res) => {
   }
 };
 
+exports.createCheckoutSession = async (req, res) => {
+  try {
+    const { cart, success_url, cancel_url } = req.body;
+    
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: cart.map(item => ({
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: item.name,
+          },
+          unit_amount: Math.round(item.price * 100), // Convert to cents
+        },
+        quantity: item.quantity,
+      })),
+      mode: 'payment',
+      success_url: success_url,
+      cancel_url: cancel_url,
+    });
 
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error('Stripe checkout error:', error);
+    res.status(500).json({ error: error.message });
+  }
+};

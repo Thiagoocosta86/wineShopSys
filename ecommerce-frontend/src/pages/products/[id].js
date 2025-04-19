@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { CartContext } from "../../context/CartContext";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
 
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -51,6 +53,8 @@ export default function ProductPage() {
   if (!product) return <p>Loading...</p>;
 
   return (
+    <div>
+      <Navbar />
     <div className="container mx-auto p-4">
       <h1 className="text-3xl font-bold">{product.name}</h1>
       <h2 className="text-3xl font-bold">{product.category}</h2>
@@ -88,6 +92,8 @@ export default function ProductPage() {
       </button>
 
       
+    </div>
+      <Footer />
     </div>
   );
 }

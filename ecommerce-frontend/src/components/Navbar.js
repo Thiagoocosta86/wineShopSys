@@ -10,13 +10,13 @@ export default function Navbar() {
   return (
     <nav className="bg-white-300 ">
       
-      <div className="container mx-auto px-4 py-3 flex justify-between items-center">
+      <div className="container mx-auto px-4 py-3 flex justify-between align-center items-center">
       <div>
         
         <Image src="/wineShopLogo.svg" alt="Monchoir Wine Logo" width={50} height={50} />
   
         </div>
-        <Link href="/" className="text-2xl font-bold ">
+        <Link href="/" className="text-2xl font-bold justify-center brand">
           Monchoir Wine
         </Link>
         
